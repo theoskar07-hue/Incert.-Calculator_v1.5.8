@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Incertidumbre | Metrología GUM</title>
+  <meta name="description" content="Sistema profesional de cálculo de incertidumbre de medición. Compatible con Trazable, ANAB y EMA. Sin instalación requerida." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="app-header">
+    <div class="header-brand">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      <div>
+        <div class="header-title">Calculadora de Incertidumbre</div>
+        <div class="header-sub">GUM &middot; Trazable &middot; ANAB &middot; EMA</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="export-group" id="export-group" style="display:none">
+        <button class="btn btn-outline btn-sm" onclick="exportarCSV()" title="Exportar a CSV">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          CSV
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="exportarXLS()" title="Exportar a Excel (.xlsx)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          XLSX
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="exportarPDF()" title="Exportar a PDF">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          PDF
+        </button>
+        <button class="btn btn-ghost btn-sm btn-danger" onclick="limpiarTodo()" title="Borrar todos los datos">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          Limpiar todo
+        </button>
+      </div>
+      <button class="btn btn-primary" onclick="agregarEquipo()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Agregar equipo
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Main ── -->
+  <main class="app-main">
+
+    <!-- Banner de fórmulas -->
+    <details class="formulas-banner">
+      <summary class="formulas-summary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Fórmulas utilizadas (clic para expandir)
+      </summary>
+      <div class="formulas-grid">
+        <div class="formula-item">
+          <div class="formula-title">Promedio</div>
+          <div class="formula-code">x&#772; = &Sigma;(Rdg&#7522;) / n</div>
+        </div>
+        <div class="formula-item">
+          <div class="formula-title">Repetibilidad (Desv. Est. Muestral)</div>
+          <div class="formula-code">s = &radic;[ &Sigma;(Rdg&#7522; &minus; x&#772;)&sup2; / (n&minus;1) ]</div>
+          <div class="formula-note">Mostrada con 2 cifras significativas</div>
+        </div>
+        <div class="formula-item" style="border-color:#93c5fd;background:#eff4ff">
+          <div class="formula-title">Incertidumbre Expandida (k=2)</div>
+          <div class="formula-code">U = &radic;( (s/&radic;n)&sup2; + (uScope/2)&sup2; + varExtra ) &times; 2</div>
+          <div class="formula-note">Mostrada con 2 cifras significativas</div>
+        </div>
+        <div class="formula-item">
+          <div class="formula-title">Inc. Resultado</div>
+          <div class="formula-code">OK &nbsp;si&nbsp; Inc. Exp. &le; uScope</div>
+        </div>
+        <div class="formula-item">
+          <div class="formula-title">Varianzas Extra</div>
+          <div class="formula-code">Resolución: val / &radic;12<br>Resto: val / &radic;3</div>
+        </div>
+        <div class="formula-item">
+          <div class="formula-title">Tolerancia Combinada</div>
+          <div class="formula-code">&plusmn;( %Rdg&middot;|Nom| + %FS&middot;FS + díg&middot;res )</div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Contenedor de equipos -->
+    <div id="equipos-container"></div>
+
+  </main>
+
+  <!-- SheetJS para exportar .xlsx real -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <script src="app.js"></script>
+
+  <footer class="app-footer">
+    Developed for Test Solutions SA. de C.V. by TheOskar &mdash; &copy; Copyright 2026
+  </footer>
+
+</body>
+</html>
