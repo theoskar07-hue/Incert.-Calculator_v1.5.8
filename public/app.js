@@ -11,6 +11,7 @@ const GRUPOS_UNIDADES = [
   { grupo: 'Voltaje',       unidades: ['mV', 'V', 'kV'] },
   { grupo: 'Corriente',     unidades: ['µA', 'mA', 'A'] },
   { grupo: 'Resistencia',   unidades: ['mΩ', 'Ω', 'kΩ', 'MΩ', 'GΩ'] },
+  { grupo: 'Capacitancia',  unidades: ['pF','nF', 'µF', 'mF', 'F'] },
   { grupo: 'Presión',       unidades: ['Pa', 'kPa', 'MPa', 'bar', 'mbar', 'PSI', 'mmHg', 'inH2O', 'inWC', 'cmH2O'] },
   { grupo: 'Temperatura',   unidades: ['°C', '°F', 'K'] },
   { grupo: 'Humedad',       unidades: ['%RH'] },
@@ -21,7 +22,7 @@ const GRUPOS_UNIDADES = [
   { grupo: 'Frecuencia',    unidades: ['Hz', 'kHz', 'MHz'] },
   { grupo: 'Tiempo',        unidades: ['ms', 's', 'min', 'h'] },
   { grupo: 'Velocidad',     unidades: ['rpm', 'm/s', 'km/h'] },
-  { grupo: 'Flujo',         unidades: ['L/min', 'L/h', 'm³/h', 'GPM', 'SCFM'] },
+  { grupo: 'Flujo',         unidades: ['L/min', 'LPM', 'L/h', 'm³/h', 'GPM', 'SCFM'] },
   { grupo: 'Otro',          unidades: ['%', 'ppm', 'ppb', 'dB', 'lux', 'cd'] },
 ];
 
