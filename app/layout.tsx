@@ -1,11 +1,8 @@
 import React from "react"
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+// No importamos globals.css para no sobreescribir los estilos de la app vanilla
 
 export const metadata: Metadata = {
   title: 'Calculadora de Incertidumbre | Metrología GUM',
@@ -19,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`font-sans antialiased`}>
+      <body>
         {children}
         <Analytics />
       </body>
